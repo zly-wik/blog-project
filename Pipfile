@@ -4,8 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
-djangorestframework = "*"
+django = "5.0.4"
+djangorestframework = "3.15.1"
+drf-nested-routers = "0.93.5"
 
 [dev-packages]
 
