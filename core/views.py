@@ -3,6 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 from core.models import Blog, Post
 from core.serializers import BlogSerializer, PostSerializer
 
+
 # Create your views here.
 class BlogViewSet(ModelViewSet):
     queryset = Blog.objects.all()

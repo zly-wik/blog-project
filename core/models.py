@@ -2,13 +2,16 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 
+
 class User(AbstractUser):
     pass
+
 
 class Blog(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     owner = models.ForeignKey('UserProfile', blank=False, null=False, on_delete=models.CASCADE, related_name='blogs')
+
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
