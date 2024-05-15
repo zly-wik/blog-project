@@ -11,7 +11,6 @@ class IsBlogOwnerOrReadOnly(permissions.BasePermission):
             return True
 
         if hasattr(obj, 'owner'):
-            print(obj.owner.user == request.user)
             return obj.owner.user == request.user
         
         if hasattr(obj, 'blog'):
