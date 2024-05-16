@@ -10,7 +10,7 @@ from core.serializers import BlogSerializer, PostSerializer
 class BlogViewSet(ModelViewSet):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]#, IsBlogOwnerOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsBlogOwnerOrReadOnly]
 
 
 class PostViewSet(ModelViewSet):
