@@ -69,8 +69,11 @@ class TestBlogRetrieve:
         profile = baker.make(UserProfile, user=user)
         client = APIClient()
         client.force_authenticate(user=user)
-        blog = baker.make(Blog, owner=profile)
+        blog = baker.make(Blog, name='aaa', description='bbb', owner=profile)
         
         response = client.get(f'/api/blogs/{blog.pk}/')
         
         assert response.status_code == status.HTTP_200_OK
+        assert response.data['name'] == 'aaa'
+        assert response.data['description'] == 'bbb'
+        assert response.data['owner'] == profile.pk
