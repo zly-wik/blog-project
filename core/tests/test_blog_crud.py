@@ -30,9 +30,9 @@ class TestBlogCreate:
     def test_if_authenticated_valid_data_return_201(self):
         user = baker.make(settings.AUTH_USER_MODEL)
         profile = baker.make(UserProfile, user=user)
+        data={'name': 'aaa', 'description': 'bbb', 'owner': profile.pk}
         client = APIClient()
         client.force_authenticate(user=user)
-        data={'name': 'aaa', 'description': 'bbb', 'owner': profile.pk}
 
         response = client.post('/api/blogs/', data=data)
 
@@ -56,9 +56,9 @@ class TestBlogRetrieve:
     def test_blog_not_found_return_404(self):
         user = baker.make(settings.AUTH_USER_MODEL)
         profile = baker.make(UserProfile, user=user)
+        baker.make(Blog, owner=profile)
         client = APIClient()
         client.force_authenticate(user=user)
-        baker.make(Blog, owner=profile)
 
         response = client.get('/api/blogs/a/')
 
@@ -67,9 +67,9 @@ class TestBlogRetrieve:
     def test_retrieve_blog_return_200(self):
         user = baker.make(settings.AUTH_USER_MODEL)
         profile = baker.make(UserProfile, user=user)
+        blog = baker.make(Blog, name='aaa', description='bbb', owner=profile)
         client = APIClient()
         client.force_authenticate(user=user)
-        blog = baker.make(Blog, name='aaa', description='bbb', owner=profile)
 
         response = client.get(f'/api/blogs/{blog.pk}/')
 
@@ -90,11 +90,10 @@ class TestBlogUpdate:
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
     def test_if_not_owner_return_403(self):
-        client = APIClient()
         owner_profile = baker.make(UserProfile)
         user_profile = baker.make(UserProfile)
         blog = baker.make(Blog, owner=owner_profile)
-
+        client = APIClient()
         client.force_authenticate(user=user_profile.user)
 
         response = client.put(f'/api/blogs/{blog.pk}/', data={'name': 'aaa'})
@@ -102,9 +101,8 @@ class TestBlogUpdate:
         assert response.status_code == status.HTTP_403_FORBIDDEN
 
     def test_if_not_found_return_404(self):
-        client = APIClient()
         owner_profile = baker.make(UserProfile)
-
+        client = APIClient()
         client.force_authenticate(user=owner_profile.user)
 
         response = client.put(f'/api/blogs/a/', data={'name': 'aaa'})
@@ -112,10 +110,9 @@ class TestBlogUpdate:
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
     def test_if_owner_invalid_data_return_400(self):
-        client = APIClient()
         owner_profile = baker.make(UserProfile)
         blog = baker.make(Blog, owner=owner_profile)
-
+        client = APIClient()
         client.force_authenticate(user=owner_profile.user)
 
         response = client.put(f'/api/blogs/{blog.pk}/', data={'x': 'd'})
@@ -123,10 +120,9 @@ class TestBlogUpdate:
         assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     def test_if_owner_valid_data_return_200(self):
-        client = APIClient()
         owner_profile = baker.make(UserProfile)
         blog = baker.make(Blog, owner=owner_profile)
-
+        client = APIClient()
         client.force_authenticate(user=owner_profile.user)
 
         response = client.put(f'/api/blogs/{blog.pk}/', data={'name': 'aaa'})
@@ -147,10 +143,10 @@ class TestBlogDelete:
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
     def test_if_not_owner_return_403(self):
-        client = APIClient()
         owner_profile = baker.make(UserProfile)
         user_profile = baker.make(UserProfile)
         blog = baker.make(Blog, owner=owner_profile)
+        client = APIClient()
         client.force_authenticate(user=user_profile.user)
 
         response = client.delete(f'/api/blogs/{blog.pk}/')
@@ -158,8 +154,8 @@ class TestBlogDelete:
         assert response.status_code == status.HTTP_403_FORBIDDEN
 
     def test_if_not_found_return_404(self):
-        client = APIClient()
         owner_profile = baker.make(UserProfile)
+        client = APIClient()
         client.force_authenticate(user=owner_profile.user)
 
         response = client.delete(f'/api/blogs/a/')
@@ -167,10 +163,10 @@ class TestBlogDelete:
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
     def test_if_found_return_204(self):
-        client = APIClient()
         owner_profile = baker.make(UserProfile)
-        client.force_authenticate(user=owner_profile.user)
         blog = baker.make(Blog, owner=owner_profile)
+        client = APIClient()
+        client.force_authenticate(user=owner_profile.user)
 
         response = client.delete(f'/api/blogs/{blog.pk}/')
 
