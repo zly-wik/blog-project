@@ -2,6 +2,9 @@
 __pycache__/
 *.py[cod]
 
+# Django
+uploads/
+
 # Database
 db.sqlite3
 
