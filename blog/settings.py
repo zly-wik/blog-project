@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'mdeditor',
     'core',
+    'community',
 ]
 
 MIDDLEWARE = [
