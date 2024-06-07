@@ -25,5 +25,5 @@ class PostSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         blog_id = self.context['blog']
         blog = Blog.objects.get(pk=blog_id)
-        
+
         return Post.objects.create(blog=blog, **validated_data)
