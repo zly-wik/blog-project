@@ -19,8 +19,8 @@ class BlogSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ['pk', 'title', 'content', 'created_at', 'blog']
-        read_only_fields = ['pk', 'created_at', 'blog']
+        fields = ['pk', 'title', 'content', 'created_at', 'blog', 'comments']
+        read_only_fields = ['pk', 'created_at', 'blog', 'comments']
 
     def create(self, validated_data):
         blog_id = self.context['blog']

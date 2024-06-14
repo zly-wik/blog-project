@@ -6,7 +6,6 @@ from core.permissions import IsBlogOwnerOrReadOnly
 from core.serializers import BlogSerializer, PostSerializer
 
 
-# Create your views here.
 class BlogViewSet(ModelViewSet):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
@@ -19,7 +18,7 @@ class PostViewSet(ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly, IsBlogOwnerOrReadOnly]
 
     def get_queryset(self):
-        return Post.objects.filter(blog=self.kwargs['blog_pk'])
+        return Post.objects.filter(blog=self.kwargs['blog_pk']).prefetch_related('comments')
 
     def get_serializer_context(self):
         return {'blog': self.kwargs['blog_pk']}
