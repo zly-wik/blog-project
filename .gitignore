@@ -1,6 +1,10 @@
 # Python
 __pycache__/
 *.py[cod]
+.pytest_cache/
+
+# Django
+uploads/
 
 # Database
 db.sqlite3

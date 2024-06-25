@@ -138,7 +138,7 @@ class TestPostUpdate:
     def test_if_owner_valid_data_return_200(self):
         owner_profile = baker.make(UserProfile)
         blog = baker.make(Blog, owner=owner_profile)
-        post = baker.make(Post, blog=blog)
+        post = baker.make(Post, blog=blog, content='aaa')
         client = APIClient()
         client.force_authenticate(user=owner_profile.user)
 
@@ -155,7 +155,7 @@ class TestPostDelete:
     def test_if_anonymous_return_401(self):
         client = APIClient()
         blog = baker.make(Blog)
-        post = baker.make(Post, blog=blog)
+        post = baker.make(Post, blog=blog, content='aaa')
 
         response = client.delete(f'/api/blogs/{blog.pk}/posts/{post.pk}/')
 
@@ -165,7 +165,7 @@ class TestPostDelete:
         owner_profile = baker.make(UserProfile)
         user_profile = baker.make(UserProfile)
         blog = baker.make(Blog, owner=owner_profile)
-        post = baker.make(Post, blog=blog)
+        post = baker.make(Post, blog=blog, content='aaa')
         client = APIClient()
         client.force_authenticate(user=user_profile.user)
 
@@ -186,7 +186,7 @@ class TestPostDelete:
     def test_if_found_return_204(self):
         owner_profile = baker.make(UserProfile)
         blog = baker.make(Blog, owner=owner_profile)
-        post = baker.make(Post, blog=blog)
+        post = baker.make(Post, blog=blog, content='aaa')
         client = APIClient()
         client.force_authenticate(user=owner_profile.user)
 
